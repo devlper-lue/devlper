@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio | made by lue</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Quicksand', Arial, sans-serif;
+      background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed, #000;
+      background-size: cover;
+      margin: 0;
+      min-height: 100vh;
+      color: #e0e6f7;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .star-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+    }
+    nav {
+      width: 100%;
+      position: fixed;
+      top: 0; left: 0;
+      z-index: 10;
+      background: rgba(20, 20, 40, 0.7);
+      box-shadow: 0 2px 16px #3949ab44;
+      display: flex;
+      justify-content: center;
+      padding: 0.7rem 0;
+      backdrop-filter: blur(8px);
+    }
+    nav a {
+      font-family: 'Poppins', 'Quicksand', Arial, sans-serif;
+      color: #ffd54f;
+      text-decoration: none;
+      margin: 0 1.5rem;
+      font-size: 1.1rem;
+      letter-spacing: 1px;
+      transition: color 0.2s;
+      text-shadow: 0 0 8px #90caf9;
+      position: relative;
+    }
+    nav a:after {
+      content: '';
+      display: block;
+      margin: 0 auto;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #ffd54f, #90caf9);
+      transition: width 0.3s;
+      border-radius: 2px;
+    }
+    nav a:hover:after, nav a.active:after {
+      width: 80%;
+    }
+    nav a:hover, nav a.active {
+      color: #90caf9;
+    }
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 2rem 1.5rem;
+      z-index: 2;
+      position: relative;
+    }
+    section {
+      margin-bottom: 4rem;
+      background: rgba(30, 40, 80, 0.18);
+      border-radius: 22px;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22), 0 0 0 4px #90caf944;
+      padding: 2.5rem 2rem;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 1s, transform 1s;
+    }
+    section.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    h1, h2 {
+      font-family: 'Poppins', 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(90deg, #90caf9 20%, #ffd54f 60%, #b3c6ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-fill-color: transparent;
+      letter-spacing: 2px;
+      text-shadow: 0 0 12px #90caf9, 0 2px 8px #1a237e;
+      margin-top: 0;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    h2 {
+      font-size: 1.7rem;
+      margin-bottom: 1.2rem;
+    }
+    .about {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: #e0e6f7;
+    }
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+    }
+    .project {
+      background: rgba(20, 20, 40, 0.22);
+      border-radius: 14px;
+      box-shadow: 0 2px 12px #3949ab33, 0 0 8px #ffd54f33;
+      padding: 1.2rem 1rem;
+      color: #fff;
+      font-family: 'Quicksand', Arial, sans-serif;
+      font-size: 1.1rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1.5px solid #90caf9;
+      position: relative;
+      overflow: hidden;
+    }
+    .project:hover {
+      transform: translateY(-6px) scale(1.03);
+      box-shadow: 0 8px 32px #ffd54f44, 0 0 24px #90caf9;
+    }
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem 1.2rem;
+      font-size: 1.1rem;
+      color: #ffd54f;
+      margin-bottom: 0.5rem;
+    }
+    .skill {
+      background: rgba(144,202,249,0.13);
+      border-radius: 8px;
+      padding: 0.3rem 1rem;
+      box-shadow: 0 1px 6px #90caf944;
+      border: 1px solid #3949ab;
+      font-family: 'Poppins', 'Quicksand', Arial, sans-serif;
+      color: #90caf9;
+      letter-spacing: 1px;
+    }
+    .contact-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem;
+      max-width: 400px;
+    }
+    .contact-form input, .contact-form textarea {
+      font-family: 'Quicksand', Arial, sans-serif;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      border: 1.5px solid #3949ab;
+      background: #23234a;
+      color: #e0e6f7;
+      font-size: 1rem;
+      outline: none;
+      box-shadow: 0 1px 6px #1a237e33;
+      transition: border 0.2s;
+    }
+    .contact-form input:focus, .contact-form textarea:focus {
+      border: 1.5px solid #ffd54f;
+      background: #23234aee;
+    }
+    .contact-form button {
+      font-family: 'Poppins', 'Quicksand', Arial, sans-serif;
+      background: linear-gradient(90deg, #3949ab 60%, #1a237e 100%);
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 0.7rem 1.2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #1a237e44, 0 0 8px #ffd54f44;
+      transition: background 0.2s, transform 0.2s;
+      letter-spacing: 1px;
+      outline: none;
+      text-shadow: 0 0 8px #ffd54f88;
+    }
+    .contact-form button:hover {
+      background: linear-gradient(90deg, #1a237e 60%, #3949ab 100%);
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 4px 16px #ffd54f44, 0 0 16px #ffd54f99;
+    }
+    .footer {
+      margin: 3rem 0 1rem 0;
+      color: #b3c6ff;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      z-index: 1;
+      text-shadow: 0 1px 4px #1a237e;
+      font-family: 'Poppins', 'Segoe Script', cursive, sans-serif;
+      text-align: center;
+      opacity: 0.85;
+    }
+    @media (max-width: 600px) {
+      .container { padding: 5rem 0.5rem 2rem 0.5rem; }
+      section { padding: 1.2rem 0.5rem; }
+      nav a { margin: 0 0.7rem; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield" class="star-bg"></canvas>
+  <nav>
+    <a href="#about" class="active">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="container">
+    <section id="about">
+      <h1>Hi, I'm Lue</h1>
+      <div class="about">
+        Welcome to my cosmic portfolio! I'm a passionate web developer and designer who loves building beautiful, interactive, and modern web experiences.<br><br>
+        I read books, make books, and enjoy learning new things every day. I'm also a Unity game developer, shop/store owner, and CEO of Rush Garments.<br><br>
+        Explore my universe of projects, skills, and let's connect!
+      </div>
+    </section>
+    <section id="projects">
+      <h2>Projects</h2>
+      <div class="projects">
+        <div class="project">
+          <strong>Password Galaxy</strong><br>
+          A secure password generator with a galaxy theme and live starfield animation.
+        </div>
+        <div class="project">
+          <strong>Flappy Galaxy</strong><br>
+          A Flappy Bird-inspired game where you dodge asteroids in space as a spaceship.
+        </div>
+        <div class="project">
+          <strong>Unit Converter</strong><br>
+          A stylish, animated unit converter with a cosmic look.
+        </div>
+        <div class="project">
+          <strong>Code Generator</strong><br>
+          Instantly generate HTML, CSS, or JS code snippets with a beautiful UI.
+        </div>
+        <div class="project">
+          <strong>Book Maker</strong><br>
+          I create and publish books, sharing knowledge and stories with the world.
+        </div>
+        <div class="project">
+          <strong>Unity Game Dev</strong><br>
+          Developed interactive games and experiences using Unity.
+        </div>
+        <div class="project">
+          <strong>Shopy Shope Store</strong><br>
+          Owner and manager of an online and physical store, providing a variety of products.
+        </div>
+        <div class="project">
+          <strong>Rush Garments</strong><br>
+          CEO of Rush Garments, leading a team in the fashion and apparel industry.
+        </div>
+      </div>
+    </section>
+    <section id="skills">
+      <h2>Skills</h2>
+      <div class="skills-list">
+        <span class="skill">HTML5</span>
+        <span class="skill">CSS3</span>
+        <span class="skill">JavaScript</span>
+        <span class="skill">UI/UX Design</span>
+        <span class="skill">Responsive Design</span>
+        <span class="skill">Game Dev</span>
+        <span class="skill">Animation</span>
+        <span class="skill">Book Reading</span>
+        <span class="skill">Book Making</span>
+        <span class="skill">Unity</span>
+        <span class="skill">Shop Management</span>
+        <span class="skill">Business Leadership</span>
+        <span class="skill">Fashion & Apparel</span>
+      </div>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <form class="contact-form" onsubmit="sendMessage(event)">
+        <input type="text" id="name" placeholder="Your Name" required>
+        <input type="email" id="email" placeholder="Your Email" required>
+        <textarea id="message" placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  </div>
+  <div class="footer">made by lue</div>
+  <script>
+    // Starfield animation
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    const STAR_COUNT = 400;
+    const STAR_COLORS = ['#fff', '#b3c6ff', '#e0e6f7', '#ffd54f'];
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    function createStars() {
+      stars = [];
+      for (let i = 0; i < STAR_COUNT; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          speed: 0.2 + Math.random() * 0.7,
+          o: 0.5 + Math.random() * 0.5,
+          r: 0.5 + Math.random() * 1.5,
+          color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+          twinkle: Math.random() * Math.PI * 2
+        });
+      }
+    }
+    let twinkleTime = 0;
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      twinkleTime += 0.03;
+      for (let star of stars) {
+        let twinkle = 0.7 + 0.3 * Math.sin(twinkleTime + star.twinkle);
+        ctx.globalAlpha = star.o * twinkle;
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+        ctx.fillStyle = star.color;
+        ctx.shadowColor = star.color;
+        ctx.shadowBlur = 10;
+        ctx.fill();
+      }
+      ctx.globalAlpha = 1;
+    }
+    function animateStars() {
+      for (let star of stars) {
+        star.y += star.speed;
+        star.x += Math.sin(star.y / 80) * 0.2;
+        if (star.y > canvas.height) {
+          star.x = Math.random() * canvas.width;
+          star.y = 0;
+        }
+      }
+      drawStars();
+      requestAnimationFrame(animateStars);
+    }
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+      createStars();
+    });
+    resizeCanvas();
+    createStars();
+    animateStars();
+    // Animated section reveal
+    function revealSections() {
+      const sections = document.querySelectorAll('section');
+      const trigger = window.innerHeight * 0.85;
+      sections.forEach(sec => {
+        const rect = sec.getBoundingClientRect();
+        if (rect.top < trigger) sec.classList.add('visible');
+      });
+    }
+    window.addEventListener('scroll', revealSections);
+    window.addEventListener('load', revealSections);
+    // Smooth nav highlight
+    const navLinks = document.querySelectorAll('nav a');
+    window.addEventListener('scroll', () => {
+      let fromTop = window.scrollY + 80;
+      navLinks.forEach(link => {
+        const section = document.querySelector(link.getAttribute('href'));
+        if (section.offsetTop <= fromTop && section.offsetTop + section.offsetHeight > fromTop) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
+    // Contact form (demo only)
+    function sendMessage(e) {
+      e.preventDefault();
+      alert('Thank you for your message! (Demo only)');
+      document.querySelector('.contact-form').reset();
+    }
+  </script>
+</html> 

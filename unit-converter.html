@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', Arial, sans-serif;
+            background: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+            margin: 0;
+            color: #e0e6f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .converter {
+            background: rgba(30, 40, 80, 0.18);
+            padding: 2.2rem 2.7rem;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22), 0 0 0 4px #90caf944;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            min-width: 340px;
+            border: 2.5px solid #90caf9;
+            z-index: 1;
+            backdrop-filter: blur(16px) saturate(1.3);
+            position: relative;
+            overflow: hidden;
+            animation: floaty 4s ease-in-out infinite alternate;
+        }
+        @keyframes floaty {
+            0% { transform: translateY(0px) scale(1); box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.22), 0 0 0 4px #90caf944; }
+            100% { transform: translateY(-16px) scale(1.02); box-shadow: 0 16px 48px 0 rgba(31, 38, 135, 0.33), 0 0 0 8px #ffd54f33; }
+        }
+        .converter::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            background: linear-gradient(120deg, #3949ab44 0%, #ffd54f22 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+        h1 {
+            font-family: 'Poppins', 'Quicksand', Arial, sans-serif;
+            margin: 0 0 1.2rem 0;
+            font-size: 2.2rem;
+            background: linear-gradient(90deg, #90caf9 20%, #ffd54f 60%, #b3c6ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            letter-spacing: 2.5px;
+            text-shadow: 0 0 12px #90caf9, 0 2px 8px #1a237e;
+            animation: galaxy-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes galaxy-glow {
+            0% { text-shadow: 0 0 12px #90caf9, 0 2px 8px #1a237e; }
+            100% { text-shadow: 0 0 24px #ffd54f, 0 2px 16px #3949ab; }
+        }
+        label {
+            font-weight: bold;
+            color: #b3c6ff;
+            margin-bottom: 0.2rem;
+        }
+        input, select {
+            font-family: 'Quicksand', Arial, sans-serif;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #3949ab;
+            font-size: 1rem;
+            background: #23234a;
+            color: #e0e6f7;
+            outline: none;
+            transition: border 0.2s;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 1px 6px #1a237e33;
+        }
+        input:focus, select:focus {
+            border: 1.5px solid #90caf9;
+            background: #23234aee;
+        }
+        select {
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%23ffd54f" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1.2em;
+            padding-right: 2.2em;
+        }
+        button {
+            font-family: 'Poppins', 'Quicksand', Arial, sans-serif;
+            background: linear-gradient(90deg, #3949ab 60%, #1a237e 100%);
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            padding: 0.7rem 1.2rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 2px 8px #1a237e44;
+            transition: background 0.2s, transform 0.2s;
+            margin-top: 0.5rem;
+            letter-spacing: 1px;
+            outline: none;
+        }
+        button:hover {
+            background: linear-gradient(90deg, #1a237e 60%, #3949ab 100%);
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 4px 16px #ffd54f44;
+        }
+        .result {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            color: #ffd54f;
+            text-shadow: 0 1px 4px #1a237e;
+            font-weight: bold;
+            letter-spacing: 1px;
+            background: rgba(30, 40, 80, 0.55);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            box-shadow: 0 1px 8px #3949ab33;
+        }
+        .footer {
+            font-family: 'Poppins', 'Segoe Script', cursive, sans-serif;
+            margin-top: 2rem;
+            color: #b3c6ff;
+            font-size: 1rem;
+            letter-spacing: 1px;
+            z-index: 1;
+            text-shadow: 0 1px 4px #1a237e;
+            font-family: 'Segoe Script', cursive, sans-serif;
+            text-align: center;
+            opacity: 0.85;
+        }
+        /* Unit icons for dropdowns (visual only, not functional in select) */
+        .unit-icon {
+            display: inline-block;
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: middle;
+            margin-right: 0.3em;
+        }
+        .galaxy-divider {
+            width: 90vw;
+            max-width: 500px;
+            height: 4px;
+            margin: 32px auto 24px auto;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #3949ab00 0%, #ffd54f 40%, #90caf9 60%, #3949ab00 100%);
+            box-shadow: 0 0 16px 4px #ffd54f44, 0 0 32px 8px #90caf944;
+            opacity: 0.85;
+            position: relative;
+            z-index: 2;
+            animation: divider-glow 3s linear infinite alternate;
+        }
+        .galaxy-divider.top { margin-bottom: 0; margin-top: 36px; }
+        .galaxy-divider.bottom { margin-top: 0; margin-bottom: 36px; }
+        @keyframes divider-glow {
+            0% { box-shadow: 0 0 16px 4px #ffd54f44, 0 0 32px 8px #90caf944; }
+            100% { box-shadow: 0 0 32px 8px #ffd54f99, 0 0 48px 16px #90caf999; }
+        }
+        .heading-underline {
+            width: 60%;
+            height: 3px;
+            margin: 0.2em auto 1.2em auto;
+            border-radius: 2px;
+            background: linear-gradient(90deg, #ffd54f 0%, #90caf9 100%);
+            box-shadow: 0 0 12px #ffd54f88, 0 0 24px #90caf988;
+            animation: heading-underline-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes heading-underline-glow {
+            0% { box-shadow: 0 0 12px #ffd54f88, 0 0 24px #90caf988; }
+            100% { box-shadow: 0 0 24px #ffd54f, 0 0 36px #90caf9; }
+        }
+        .section-line {
+            width: 100%;
+            height: 2px;
+            margin: 0.7em 0 0.7em 0;
+            border-radius: 1px;
+            background: linear-gradient(90deg, #3949ab00 0%, #b3c6ff 50%, #3949ab00 100%);
+            opacity: 0.5;
+        }
+        .converter {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 0 0 4px #90caf966, 0 0 16px 4px #ffd54f44;
+            border: 2.5px solid #90caf9;
+            animation: border-glow 2.5s ease-in-out infinite alternate;
+        }
+        @keyframes border-glow {
+            0% { box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 0 0 4px #90caf966, 0 0 16px 4px #ffd54f44; }
+            100% { box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37), 0 0 0 8px #ffd54f99, 0 0 32px 8px #90caf999; }
+        }
+    </style>
+</head>
+<body>
+    <div class="galaxy-divider top"></div>
+    <canvas id="starfield" style="position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:0;"></canvas>
+    <div class="converter">
+        <h1>Unit Converter</h1>
+        <div class="heading-underline"></div>
+        <label for="value">Value:</label>
+        <input type="number" id="value" placeholder="Enter value" />
+        <div class="section-line"></div>
+        <label for="from">From:</label>
+        <select id="from">
+            <option value="meter">&#11044; Meter</option>
+            <option value="kilometer">&#128205; Kilometer</option>
+            <option value="centimeter">&#128207; Centimeter</option>
+            <option value="mile">&#128693; Mile</option>
+            <option value="yard">&#127936; Yard</option>
+            <option value="foot">&#128099; Foot</option>
+            <option value="inch">&#128207; Inch</option>
+        </select>
+        <label for="to">To:</label>
+        <select id="to">
+            <option value="meter">&#11044; Meter</option>
+            <option value="kilometer">&#128205; Kilometer</option>
+            <option value="centimeter">&#128207; Centimeter</option>
+            <option value="mile">&#128693; Mile</option>
+            <option value="yard">&#127936; Yard</option>
+            <option value="foot">&#128099; Foot</option>
+            <option value="inch">&#128207; Inch</option>
+        </select>
+        <div class="section-line"></div>
+        <button onclick="convert()">Convert</button>
+        <div class="result" id="result"></div>
+    </div>
+    <div class="galaxy-divider bottom"></div>
+    <div class="footer">made by lue</div>
+    <script>
+        const conversionRates = {
+            meter: 1,
+            kilometer: 0.001,
+            centimeter: 100,
+            mile: 0.000621371,
+            yard: 1.09361,
+            foot: 3.28084,
+            inch: 39.3701
+        };
+
+        function convert() {
+            const value = parseFloat(document.getElementById('value').value);
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            if (isNaN(value)) {
+                document.getElementById('result').textContent = 'Please enter a valid number.';
+                return;
+            }
+            // Convert from source unit to meters
+            const valueInMeters = value / conversionRates[from];
+            // Convert from meters to target unit
+            const result = valueInMeters * conversionRates[to];
+            document.getElementById('result').textContent = `${value} ${from}(s) = ${result.toFixed(4)} ${to}(s)`;
+        }
+    </script>
+    <script>
+    // Starfield animation
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+    const STAR_COUNT = 400;
+    const STAR_COLORS = ['#fff', '#b3c6ff', '#e0e6f7', '#ffd54f'];
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    function createStars() {
+        stars = [];
+        for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                z: Math.random() * canvas.width,
+                o: 0.5 + Math.random() * 0.5,
+                r: 0.5 + Math.random() * 1.5,
+                color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
+                twinkle: Math.random() * Math.PI * 2
+            });
+        }
+    }
+    function drawStars() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        twinkleTime += 0.03;
+        for (let star of stars) {
+            // Twinkle effect
+            let twinkle = 0.6 + 0.4 * Math.sin(twinkleTime + star.twinkle);
+            ctx.globalAlpha = star.o * twinkle;
+            ctx.beginPath();
+            ctx.arc(star.x, star.y, star.r, 0, 2 * Math.PI);
+            ctx.fillStyle = star.color;
+            ctx.shadowColor = star.color;
+            ctx.shadowBlur = 10;
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+    }
+    function animateStars() {
+        for (let star of stars) {
+            star.x += (star.z / 800) * (Math.random() > 0.5 ? 1 : -1);
+            star.y += (star.z / 1200);
+            if (star.x < 0 || star.x > canvas.width || star.y > canvas.height) {
+                star.x = Math.random() * canvas.width;
+                star.y = 0;
+                star.z = Math.random() * canvas.width;
+            }
+        }
+        drawStars();
+        requestAnimationFrame(animateStars);
+    }
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        createStars();
+    });
+    resizeCanvas();
+    createStars();
+    animateStars();
+    </script>
+</body>
+</html> 
